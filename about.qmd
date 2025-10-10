@@ -1,5 +1,7 @@
 ---
-title: "About"
+title: "Test"
 ---
 
-About this site
+I’m based in Switzerland and work on urban transformation and spatial modeling.  
+You can find my research on [Google Scholar](https://scholar.google.com)  
+and code on [GitHub](https://github.com/yraeth).

@@ -1,7 +1,9 @@
 ---
-title: "yraeth.github.io"
+title: "Yves Räth"
 ---
 
-This is a Quarto website.
+# Welcome
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+I’m a human focusing on urban form, function, and long-term settlement dynamics.  
+This website shares my projects, publications, and ongoing work.
+
