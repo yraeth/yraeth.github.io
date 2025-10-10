@@ -3,18 +3,10 @@ project:
   output-dir: docs
 
 website:
-  title: "Yves Räth"
-  navbar:
-    left:
-      - href: index.qmd
-        text: Home
-      - href: about.qmd
-        text: Test
+  title: ""
+  navbar: false
+  search: false
 
 format:
   html:
     theme: cosmo
-    css: styles.css
-
-
-
