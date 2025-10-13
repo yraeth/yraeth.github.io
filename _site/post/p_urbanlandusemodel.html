@@ -118,37 +118,55 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<div id="map-container" style="position:relative; width:100%; height:600px;">
-<div id="map" style="width:100%; height:100%;">
+<style>
+main.content { max-width: 100vw; margin: 0; padding: 0; }
+#map-container { position: relative; width: 95vw; height: calc(90vh - 80px); margin-left: 50%; transform: translateX(-50%); }
+#map { position: absolute; inset: 0; }
+</style>
+<style>
+main.content { max-width: 100vw; margin: 0; padding: 0; }
+#map-container { position: relative; width: 95vw; height: calc(90vh - 80px); margin-left: 50%; transform: translateX(-50%); }
+#map { position: absolute; inset: 0; }
+</style>
 
-</div>
-<!-- legend -->
-<div id="legend" style="
+<div id="map-container">
+  <div id="map"></div>
+
+  <div id="legend" style="
     position:absolute; bottom:10px; left:10px;
     background:rgba(255,255,255,0.9);
-    padding:8px 12px; border-radius:6px;
-    font-family:sans-serif; font-size:13px;
-    box-shadow:0 1px 3px rgba(0,0,0,0.3);
-  ">
-<pre><code>&lt;div&gt;&lt;span style="display:inline-block;width:14px;height:14px;background:#4C7300;margin-right:6px;"&gt;&lt;/span&gt;Residential&lt;/div&gt;
-&lt;div&gt;&lt;span style="display:inline-block;width:14px;height:14px;background:#67A9CF;margin-right:6px;"&gt;&lt;/span&gt;Mixed&lt;/div&gt;
-&lt;div&gt;&lt;span style="display:inline-block;width:14px;height:14px;background:#2166AC;margin-right:6px;"&gt;&lt;/span&gt;Industrial&lt;/div&gt;
-&lt;div&gt;&lt;span style="display:inline-block;width:14px;height:14px;background:#B2182B;margin-right:6px;"&gt;&lt;/span&gt;High-density special&lt;/div&gt;</code></pre>
-</div>
-<!-- toggle box -->
-<div id="layer-switch" style="
+    padding:10px 14px; border-radius:6px;
+    font-family:sans-serif; font-size:13px; line-height:1.5;
+    box-shadow:0 1px 3px rgba(0,0,0,0.3); z-index:2;">
+    <strong>Residents</strong><br>
+    <div><span id="legend-dot1" style="display:inline-block;width:18px;height:18px;margin-right:6px;border:1px solid #ccc;background-repeat:repeat;"></span>5–24</div>
+    <div><span id="legend-dot2" style="display:inline-block;width:18px;height:18px;margin-right:6px;border:1px solid #ccc;background-repeat:repeat;"></span>25–200</div>
+    <div><span id="legend-dot3" style="display:inline-block;width:18px;height:18px;margin-right:6px;border:1px solid #ccc;background-repeat:repeat;"></span>&gt;200</div>
+
+    <br><strong>Sector &amp; FTE</strong><br>
+    <div><span style="display:inline-block;width:14px;height:14px;background:#4C7300;margin-right:6px;"></span>I ≥5</div>
+    <div><span style="display:inline-block;width:14px;height:14px;background:#D1E5F0;margin-right:6px;"></span>II 5–24</div>
+    <div><span style="display:inline-block;width:14px;height:14px;background:#67A9CF;margin-right:6px;"></span>II 25–200</div>
+    <div><span style="display:inline-block;width:14px;height:14px;background:#2166AC;margin-right:6px;"></span>II &gt;200</div>
+    <div><span style="display:inline-block;width:14px;height:14px;background:#FDDBC7;margin-right:6px;"></span>III 5–24</div>
+    <div><span style="display:inline-block;width:14px;height:14px;background:#EF8A62;margin-right:6px;"></span>III 25–200</div>
+    <div><span style="display:inline-block;width:14px;height:14px;background:#B2182B;margin-right:6px;"></span>III &gt;200</div>
+  </div>
+
+  <div id="layer-switch" style="
     position:absolute; top:10px; right:10px;
     background:rgba(255,255,255,0.9);
     padding:6px 10px; border-radius:6px;
     font-family:sans-serif; font-size:13px;
-    box-shadow:0 1px 3px rgba(0,0,0,0.3);
-  ">
-<pre><code>&lt;label&gt;&lt;input type="checkbox" id="toggle-colors" checked&gt; Population colors&lt;/label&gt;&lt;br&gt;
-&lt;label&gt;&lt;input type="checkbox" id="toggle-dots" checked&gt; Dot overlays&lt;/label&gt;</code></pre>
+    box-shadow:0 1px 3px rgba(0,0,0,0.3); z-index:2;">
+    <label><input type="checkbox" id="toggle-colors" checked=""> Population colors</label><br>
+    <label><input type="checkbox" id="toggle-dots" checked=""> Dot overlays</label>
+  </div>
 </div>
-</div>
+
 <link href="https://unpkg.com/maplibre-gl@3.6.1/dist/maplibre-gl.css" rel="stylesheet">
 <script src="https://unpkg.com/maplibre-gl@3.6.1/dist/maplibre-gl.js"></script>
+
 <script>
 const map = new maplibregl.Map({
   container: 'map',
@@ -158,95 +176,82 @@ const map = new maplibregl.Map({
 });
 
 map.on('load', async () => {
-  map.addSource('pred2050', {
-    type: 'geojson',
-    data: '../data/prediction_2050_1_wgs84.geojson'
-  });
+  map.addSource('pred2050', { type: 'geojson', data: '../data/prediction_2050_1_wgs84.geojson' });
 
-  // base colored polygons
   map.addLayer({
-    id: 'pred2050-pop',
-    type: 'fill',
-    source: 'pred2050',
-    filter: ['all',
-      ['>=', ['get', 'class'], 1000],
-      ['<', ['get', 'class'], 4000]
-    ],
+    id: 'pred2050-pop', type: 'fill', source: 'pred2050',
+    filter: ['all', ['>=', ['get','class'], 1000], ['<', ['get','class'], 4000]],
     paint: {
       'fill-color': [
-        'match', ['get', 'class'],
-        1100, '#4C7300',1101,'#4C7300',1102,'#4C7300',
-        1200, '#D1E5F0',1201,'#D1E5F0',1202,'#D1E5F0',1203,'#D1E5F0',
-        1300, '#FDDBC7',1301,'#FDDBC7',1302,'#FDDBC7',1303,'#FDDBC7',
-        2200, '#67A9CF',2201,'#67A9CF',2202,'#67A9CF',
-        2300, '#EF8A62',2301,'#EF8A62',2302,'#EF8A62',2303,'#EF8A62',
-        3200, '#2166AC',3201,'#2166AC',3202,'#2166AC',3203,'#2166AC',
-        3300, '#B2182B',3301,'#B2182B',3302,'#B2182B',3303,'#B2182B',
+        'match', ['get','class'],
+        1100,'#4C7300',1101,'#4C7300',1102,'#4C7300',
+        1200,'#D1E5F0',1201,'#D1E5F0',1202,'#D1E5F0',1203,'#D1E5F0',
+        1300,'#FDDBC7',1301,'#FDDBC7',1302,'#FDDBC7',1303,'#FDDBC7',
+        2200,'#67A9CF',2201,'#67A9CF',2202,'#67A9CF',
+        2300,'#EF8A62',2301,'#EF8A62',2302,'#EF8A62',2303,'#EF8A62',
+        3200,'#2166AC',3201,'#2166AC',3202,'#2166AC',3203,'#2166AC',
+        3300,'#B2182B',3301,'#B2182B',3302,'#B2182B',3303,'#B2182B',
         '#cccccc'
       ],
       'fill-opacity': 0.65
     }
   });
 
-  // helper to create and register dotted patterns
-  async function addDotPattern(name, dotRadius, spacing, alpha=0.6, diagonal=false) {
-    const size = spacing;
+  async function addDotPattern(name, r, spacing, alpha=0.6, diag=false) {
     const c = document.createElement('canvas');
-    c.width = size; c.height = size;
+    c.width = spacing; c.height = spacing;
     const ctx = c.getContext('2d');
-    ctx.clearRect(0, 0, size, size);
+    ctx.imageSmoothingEnabled = false;
+    ctx.clearRect(0,0,spacing,spacing);
     ctx.fillStyle = `rgba(0,0,0,${alpha})`;
-    if (diagonal) {
-      ctx.beginPath(); ctx.arc(size * 0.25, size * 0.25, dotRadius, 0, 2 * Math.PI); ctx.fill();
-      ctx.beginPath(); ctx.arc(size * 0.75, size * 0.75, dotRadius, 0, 2 * Math.PI); ctx.fill();
+    if (diag) {
+      ctx.beginPath(); ctx.arc(spacing*0.25, spacing*0.25, r, 0, 2*Math.PI); ctx.fill();
+      ctx.beginPath(); ctx.arc(spacing*0.75, spacing*0.75, r, 0, 2*Math.PI); ctx.fill();
     } else {
-      ctx.beginPath(); ctx.arc(size / 2, size / 2, dotRadius, 0, 2 * Math.PI); ctx.fill();
+      ctx.beginPath(); ctx.arc(spacing/2, spacing/2, r, 0, 2*Math.PI); ctx.fill();
     }
-    const blob = await createImageBitmap(c);
-    map.addImage(name, blob, { pixelRatio: 1 });
+    const bmp = await createImageBitmap(c);
+    map.addImage(name, bmp, { pixelRatio: window.devicePixelRatio });
   }
 
   await addDotPattern('dots_fine', 0.6, 20);
   await addDotPattern('dots_medium', 1.3, 15, 0.6, true);
   await addDotPattern('dots_coarse', 2.2, 10);
 
-  // overlay layers
-  map.addLayer({
-    id: 'pred2050-dots-1',
-    type: 'fill',
-    source: 'pred2050',
-    filter: ['==', ['%', ['get', 'class'], 10], 1],
-    paint: { 'fill-pattern': 'dots_fine', 'fill-opacity': 1 }
-  });
+  map.addLayer({ id:'pred2050-dots-1', type:'fill', source:'pred2050',
+    filter:['==',['%',['get','class'],10],1], paint:{'fill-pattern':'dots_fine','fill-opacity':1}});
+  map.addLayer({ id:'pred2050-dots-2', type:'fill', source:'pred2050',
+    filter:['==',['%',['get','class'],10],2], paint:{'fill-pattern':'dots_medium','fill-opacity':1}});
+  map.addLayer({ id:'pred2050-dots-3', type:'fill', source:'pred2050',
+    filter:['==',['%',['get','class'],10],3], paint:{'fill-pattern':'dots_coarse','fill-opacity':1}});
 
-  map.addLayer({
-    id: 'pred2050-dots-2',
-    type: 'fill',
-    source: 'pred2050',
-    filter: ['==', ['%', ['get', 'class'], 10], 2],
-    paint: { 'fill-pattern': 'dots_medium', 'fill-opacity': 1 }
-  });
-
-  map.addLayer({
-    id: 'pred2050-dots-3',
-    type: 'fill',
-    source: 'pred2050',
-    filter: ['==', ['%', ['get', 'class'], 10], 3],
-    paint: { 'fill-pattern': 'dots_coarse', 'fill-opacity': 1 }
-  });
-
-  // toggle logic for entire groups
   const colorLayerIds = ['pred2050-pop'];
-  const dotLayerIds = ['pred2050-dots-1', 'pred2050-dots-2', 'pred2050-dots-3'];
+  const dotLayerIds = ['pred2050-dots-1','pred2050-dots-2','pred2050-dots-3'];
 
   document.getElementById('toggle-colors').addEventListener('change', e => {
     const vis = e.target.checked ? 'visible' : 'none';
     colorLayerIds.forEach(id => map.setLayoutProperty(id, 'visibility', vis));
   });
-
   document.getElementById('toggle-dots').addEventListener('change', e => {
     const vis = e.target.checked ? 'visible' : 'none';
     dotLayerIds.forEach(id => map.setLayoutProperty(id, 'visibility', vis));
+  });
+
+  // static legend dots
+  const staticDots = [
+    { id: 'legend-dot1', svg: `<svg xmlns='http://www.w3.org/2000/svg' width='18' height='18'><circle cx='9' cy='9' r='0.8' fill='black'/></svg>` },
+    { id: 'legend-dot2', svg: `<svg xmlns='http://www.w3.org/2000/svg' width='18' height='18'><circle cx='4' cy='4' r='1.2' fill='black'/><circle cx='13' cy='13' r='1.2' fill='black'/></svg>` },
+    { id: 'legend-dot3', svg: `<svg xmlns='http://www.w3.org/2000/svg' width='18' height='18'><circle cx='5' cy='5' r='1.8' fill='black'/><circle cx='14' cy='5' r='1.8' fill='black'/><circle cx='5' cy='14' r='1.8' fill='black'/><circle cx='14' cy='14' r='1.8' fill='black'/></svg>` }
+  ];
+
+  staticDots.forEach(p => {
+    const el = document.getElementById(p.id);
+    if (el) {
+      const encoded = encodeURIComponent(p.svg);
+      el.style.backgroundImage = `url("data:image/svg+xml;utf8,${encoded}")`;
+      el.style.backgroundSize = '18px 18px';
+      el.style.backgroundRepeat = 'repeat';
+    }
   });
 });
 </script>
