@@ -1,12 +1,18 @@
 project:
   type: website
-  output-dir: docs
+  output-dir: _site
 
 website:
-  title: ""
-  navbar: false
-  search: false
+  title: "Yves M. Räth"
+  navbar:
+    right:
+      - href: about.qmd
+        text: About
+      - href: blog/_index.qmd
+        text: Posts
 
 format:
   html:
-    theme: cosmo
+    theme: default
+    css: styles.scss
+    toc: false

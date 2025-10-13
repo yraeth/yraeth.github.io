@@ -1,7 +1,24 @@
----
-title: ""
----
+::: {.columns .hero}
+::: {.column width="35%"}
+![](images/yvesr.jpg){.rounded-circle}
+:::
+::: {.column}
+I’m Yves Räth, a researcher in urban systems and spatial data analysis.  
+This site collects my work, thoughts, and projects.
+:::
+:::
 
-<div style="text-align:center; font-size:1.8em; margin-top:40vh;">
-  Website under construction 🛠️
+
+## Latest posts
+
+<div class="post-list">
+  <div class="post-item">
+    <h3><a href="blog/post1.qmd">Post 1 Title</a></h3>
+    A short summary of post 1 goes here.
+  </div>
+
+  <div class="post-item">
+    <h3><a href="blog/post2.qmd">Post 2 Title</a></h3>
+    A short summary of post 2 goes here.
+  </div>
 </div>
