@@ -1,0 +1,77 @@
+/* --- global layout --- */
+body {
+  background-color: #f3efe7;   /* soft warm beige */
+  color: #2e2b26;
+  font-family: "Inter", sans-serif;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* --- navbar --- */
+.navbar {
+  background-color: #f0ece4 !important;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+.navbar a, .navbar-brand {
+  color: #2e2b26 !important;
+}
+
+/* --- hero section --- */
+/* keep hero visually balanced */
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;           /* wider space between image and text */
+  margin: 3rem auto;
+  max-width: 900px;
+  padding: 1rem;
+}
+
+/* ensure the photo stays perfectly round */
+.hero img,
+.column img {
+  width: 240px;
+  height: 240px;
+  aspect-ratio: 1 / 1; /* keeps a perfect square */
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0 12px rgba(0,0,0,0.15);
+}
+
+/* make it stack nicely on small screens */
+@media (max-width: 768px) {
+  .hero {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+
+
+/* --- links --- */
+a {
+  color: #705d3a;
+  text-decoration: none;
+}
+a:hover {
+  color: #4e3f28;
+  text-decoration: underline;
+}
+
+/* --- post list --- */
+.post-list {
+  max-width: 700px;
+  margin: 2rem auto;
+}
+.post-item {
+  background-color: #f9f6f1;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.post-item h3 {
+  margin-top: 0;
+  color: #2e2b26;
+}

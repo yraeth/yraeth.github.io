@@ -1,0 +1,93 @@
+[
+  {
+    "objectID": "walkthrough.html",
+    "href": "walkthrough.html",
+    "title": "Hello, Quarto",
+    "section": "",
+    "text": "Markdown is an easy to read and write text format:\n\nIt’s plain text so works well with version control\nIt can be rendered into HTML, PDF, and more\nLearn more at: https://quarto.org/docs/authoring/"
+  },
+  {
+    "objectID": "walkthrough.html#markdown",
+    "href": "walkthrough.html#markdown",
+    "title": "Hello, Quarto",
+    "section": "",
+    "text": "Markdown is an easy to read and write text format:\n\nIt’s plain text so works well with version control\nIt can be rendered into HTML, PDF, and more\nLearn more at: https://quarto.org/docs/authoring/"
+  },
+  {
+    "objectID": "walkthrough.html#code-cell",
+    "href": "walkthrough.html#code-cell",
+    "title": "Hello, Quarto",
+    "section": "Code Cell",
+    "text": "Code Cell\nHere is a sPythosdfn code cell:\n\nimport os\nos.cpu_count()\n\n8"
+  },
+  {
+    "objectID": "walkthrough.html#equation",
+    "href": "walkthrough.html#equation",
+    "title": "Hello, Quarto",
+    "section": "Equation",
+    "text": "Equation\nUse LaTeX to write equations:\n\\[\n\\chi' = \\sum_{i=1}^n k_i s_i^2\n\\]"
+  },
+  {
+    "objectID": "docs/cat2_sub1.html",
+    "href": "docs/cat2_sub1.html",
+    "title": "Yves M. Räth",
+    "section": "",
+    "text": "“”"
+  },
+  {
+    "objectID": "docs/cat1_sub1.html",
+    "href": "docs/cat1_sub1.html",
+    "title": "Yves M. Räth",
+    "section": "",
+    "text": "“”"
+  },
+  {
+    "objectID": "blog/post2.html",
+    "href": "blog/post2.html",
+    "title": "Yves M. Räth",
+    "section": "",
+    "text": "“”"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "Test",
+    "section": "",
+    "text": "I’m based in Switzerland and work on urban transformation and spatial modeling.\nYou can find my research on Google Scholar\nand code on GitHub."
+  },
+  {
+    "objectID": "blog/post1.html",
+    "href": "blog/post1.html",
+    "title": "Yves M. Räth",
+    "section": "",
+    "text": "“”"
+  },
+  {
+    "objectID": "docs/cat1_intro.html",
+    "href": "docs/cat1_intro.html",
+    "title": "Yves M. Räth",
+    "section": "",
+    "text": "“”"
+  },
+  {
+    "objectID": "docs/cat2_intro.html",
+    "href": "docs/cat2_intro.html",
+    "title": "Yves M. Räth",
+    "section": "",
+    "text": "“”"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Yves M. Räth",
+    "section": "",
+    "text": "I’m Yves Räth, a researcher in urban systems and spatial data analysis.\nThis site collects my work, thoughts, and projects."
+  },
+  {
+    "objectID": "index.html#latest-posts",
+    "href": "index.html#latest-posts",
+    "title": "Yves M. Räth",
+    "section": "Latest posts",
+    "text": "Latest posts\n\n\n&lt;h3&gt;&lt;a href=\"blog/post1.qmd\"&gt;Post 1 Title&lt;/a&gt;&lt;/h3&gt;\nA short summary of post 1 goes here.\n\n\n&lt;h3&gt;&lt;a href=\"blog/post2.qmd\"&gt;Post 2 Title&lt;/a&gt;&lt;/h3&gt;\nA short summary of post 2 goes here."
+  }
+]
