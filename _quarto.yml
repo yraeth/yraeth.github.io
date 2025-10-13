@@ -1,6 +1,8 @@
 project:
   type: website
   output-dir: _site
+  resources:
+    - data/**
 
 website:
   title: "Yves M. Räth"
@@ -8,7 +10,7 @@ website:
     right:
       - href: about.qmd
         text: About
-      - href: blog/_index.qmd
+      - href: post/_index.qmd
         text: Posts
 
 format:
