@@ -6,8 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="dcterms.date" content="2025-10-14">
+<meta name="description" content="Interactive map of projected land use patterns">
 
-<title>p_urbanlandusemodel – Yves M. Räth</title>
+<title>Predicted Land Use 2050 – Yves M. Räth</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -113,9 +115,40 @@ ul.task-list li input[type="checkbox"] {
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Predicted Land Use 2050</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">Urban</div>
+    <div class="quarto-category">Modeling</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    Interactive map of projected land use patterns
+  </div>
+</div>
 
 
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">October 14, 2025</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
 
 
 <style>
@@ -159,8 +192,8 @@ main.content { max-width: 100vw; margin: 0; padding: 0; }
     padding:6px 10px; border-radius:6px;
     font-family:sans-serif; font-size:13px;
     box-shadow:0 1px 3px rgba(0,0,0,0.3); z-index:2;">
-    <label><input type="checkbox" id="toggle-colors" checked=""> Population colors</label><br>
-    <label><input type="checkbox" id="toggle-dots" checked=""> Dot overlays</label>
+    <label><input type="checkbox" id="toggle-dots" checked=""> Residential Density </label><br>
+    <label><input type="checkbox" id="toggle-colors" checked=""> Economic Density</label>
   </div>
 </div>
 
@@ -176,7 +209,7 @@ const map = new maplibregl.Map({
 });
 
 map.on('load', async () => {
-  map.addSource('pred2050', { type: 'geojson', data: '../data/prediction_2050_1_wgs84.geojson' });
+  map.addSource('pred2050', { type: 'geojson', data: '../data/rclass_2020.geojson' });
 
   map.addLayer({
     id: 'pred2050-pop', type: 'fill', source: 'pred2050',
@@ -193,7 +226,7 @@ map.on('load', async () => {
         3300,'#B2182B',3301,'#B2182B',3302,'#B2182B',3303,'#B2182B',
         '#cccccc'
       ],
-      'fill-opacity': 0.65
+      'fill-opacity': 0.9
     }
   });
 
