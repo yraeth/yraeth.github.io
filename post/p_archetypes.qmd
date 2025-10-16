@@ -1,0 +1,126 @@
+---
+title: "Archetypes of Settlement Development"
+description: "Interactive map of historic and future archetypes"
+date: 2025-10-14
+categories: [Urban, Modeling]
+---
+
+<style>
+main.content { max-width: 100vw; margin: 0; padding: 0; }
+#map-container { position: relative; width: 95vw; height: calc(90vh - 80px); margin-left: 50%; transform: translateX(-50%); }
+#map { position: absolute; inset: 0; }
+</style>
+
+```{=html}
+<div id="map-container">
+  <div id="map"></div>
+
+  <div id="legend" style="
+    position:absolute; bottom:10px; left:10px;
+    background:rgba(255,255,255,0.9);
+    padding:10px 14px; border-radius:6px;
+    font-family:sans-serif; font-size:13px; line-height:1.5;
+    box-shadow:0 1px 3px rgba(0,0,0,0.3); z-index:2;">
+    <div><span style="display:inline-block;width:14px;height:14px;background:#4C7300;margin-right:6px;"></span>Low Density Mixer</div>
+    <div><span style="display:inline-block;width:14px;height:14px;background:#984EA3;margin-right:6px;"></span>Rapid Densifier</div>
+    <div><span style="display:inline-block;width:14px;height:14px;background:#FF7F00;margin-right:6px;"></span>Gradual Densifier</div>
+    <div><span style="display:inline-block;width:14px;height:14px;background:#377EB8;margin-right:6px;"></span>High Density Densifier</div>
+    <div><span style="display:inline-block;width:14px;height:14px;background:#E41A1C;margin-right:6px;"></span>Balanced Isolate</div>
+  </div>
+
+  <div id="layer-switch" style="
+    position:absolute; top:10px; right:10px;
+    background:rgba(255,255,255,0.9);
+    padding:8px 14px; border-radius:6px;
+    font-family:sans-serif; font-size:13px;
+    box-shadow:0 1px 3px rgba(0,0,0,0.3); z-index:2;">
+    <span style="margin-right:6px;">Historic</span>
+    <label class="switch">
+      <input type="checkbox" id="toggle-future" checked>
+      <span class="slider"></span>
+    </label>
+    <span style="margin-left:6px;">Future</span>
+  </div>
+
+</div>
+
+<link href="https://unpkg.com/maplibre-gl@3.6.1/dist/maplibre-gl.css" rel="stylesheet">
+<script src="https://unpkg.com/maplibre-gl@3.6.1/dist/maplibre-gl.js"></script>
+
+<script>
+const map = new maplibregl.Map({
+  container: 'map',
+  center: [8.3, 47.4],
+  zoom: 8,
+  style: 'https://api.maptiler.com/maps/0199dd01-43ed-7c1c-8fe4-f824aa12f72c/style.json?key=GEO0jCR97VzZuo8SSbpq'
+});
+
+function addArchetypeLayer(id, file, visible) {
+  map.addSource(id, { type: 'geojson', data: file });
+  map.addLayer({
+    id,
+    type: 'fill',
+    source: id,
+    layout: { visibility: 'visible' },
+    paint: {
+      'fill-color': [
+        'match', ['get','gridcode'],
+        1,'#4C7300',
+        2,'#984EA3',
+        3,'#FF7F00',
+        4,'#377EB8',
+        5,'#E41A1C',
+        '#CCCCCC'
+      ],
+      'fill-opacity': visible ? 0.9 : 0.0,
+      'fill-outline-color': '#ffffff'
+    }
+  });
+}
+
+
+map.on('load', () => {
+  addArchetypeLayer('historic_archetypes', '../data/historic_archetypes.geojson', true);
+  addArchetypeLayer('future_archetypes', '../data/future_archetypes.geojson', true);
+
+  // start in historic mode
+  map.setPaintProperty('historic_archetypes', 'fill-opacity', 0.9);
+  map.setPaintProperty('future_archetypes', 'fill-opacity', 0.0);
+  const toggle = document.getElementById('toggle-future');
+  toggle.checked = false;
+
+  toggle.addEventListener('change', e => {
+    const showFuture = e.target.checked;
+    const steps = 25;
+    const interval = 20; // ~0.5s total
+    let i = 0;
+
+    const startHist = parseFloat(map.getPaintProperty('historic_archetypes', 'fill-opacity')) || 0.9;
+    const startFut  = parseFloat(map.getPaintProperty('future_archetypes', 'fill-opacity')) || 0.0;
+    const endHist   = showFuture ? 0.0 : 0.9;
+    const endFut    = showFuture ? 0.9 : 0.0;
+
+    const fade = setInterval(() => {
+      const t = (i + 1) / steps;
+      const ease = 0.5 - 0.5 * Math.cos(Math.PI * t); // cosine easing
+      const hist = startHist + (endHist - startHist) * ease;
+      const fut  = startFut  + (endFut  - startFut)  * ease;
+
+      map.setPaintProperty('historic_archetypes', 'fill-opacity', hist);
+      map.setPaintProperty('future_archetypes', 'fill-opacity', fut);
+
+      i++;
+      if (i >= steps) {
+        clearInterval(fade);
+        // lock final values precisely
+        map.setPaintProperty('historic_archetypes', 'fill-opacity', endHist);
+        map.setPaintProperty('future_archetypes', 'fill-opacity', endFut);
+      }
+    }, interval);
+  });
+});
+
+
+
+</script>
+```

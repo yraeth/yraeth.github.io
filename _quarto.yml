@@ -10,7 +10,7 @@ website:
     right:
       - href: about.qmd
         text: About
-      - href: post/_index.qmd
+      - href: post.qmd
         text: Posts
 
 format:

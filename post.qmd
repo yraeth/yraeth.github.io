@@ -1,0 +1,14 @@
+---
+title: "Posts"
+listing:
+  contents: post
+  sort: "date desc"
+  type: default
+  image-align: left
+  fields: [title, description, date, categories]
+  max-items: 50
+---
+
+# All posts
+
+Explore my recent posts on urban modeling, spatial data, and visualization.

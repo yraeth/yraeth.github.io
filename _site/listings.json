@@ -2,6 +2,14 @@
   {
     "listing": "/index.html",
     "items": [
+      "/post/p_archetypes.html",
+      "/post/p_urbanlandusemodel.html"
+    ]
+  },
+  {
+    "listing": "/post.html",
+    "items": [
+      "/post/p_archetypes.html",
       "/post/p_urbanlandusemodel.html"
     ]
   }
